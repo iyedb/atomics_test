@@ -5,7 +5,7 @@
 #include <mutex>
 
 int data = 0;
-std::atomic<bool> data_ready(false);
+std::atomic<int> data_ready(0x0);
 std::mutex m;
 
 void produce() {
@@ -15,10 +15,7 @@ void produce() {
     }
 
     data = 42;
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    // data = 42 will became visible to other threads
-    // doing the acquire
-    data_ready.store(true, std::memory_order_relaxed);
+    data_ready.store(0x00ffffff, std::memory_order_relaxed);
 }
 
 

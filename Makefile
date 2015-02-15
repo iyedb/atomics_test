@@ -1,5 +1,5 @@
 
-dotS: main.s main-mor.s main-relacq.s
+dotS: main.s main-mor.s main-relacq.s main-vol.s
 
 show-mor: dotS
 	tkdiff main.s main-mor.s&
@@ -18,6 +18,9 @@ main-mor.s: main-mor.cpp
 
 main-relacq.s: main-relacq.cpp
 	g++ -std=c++11 -m64 -S -O2 main-relacq.cpp
+
+main-vol.s: main-volatile.cpp
+	g++ -std=c++11 -m64 -S -O2 main-volatile.cpp
 
 clean:
 	rm -rf *.s

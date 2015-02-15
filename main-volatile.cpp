@@ -5,7 +5,7 @@
 #include <mutex>
 
 int data = 0;
-std::atomic<int> data_ready(0x0);
+volatile int data_ready = 0x0;
 std::mutex m;
 
 void produce() {
@@ -15,10 +15,7 @@ void produce() {
     }
 
     data = 42;
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    // data = 42 will became visible to other threads
-    // doing the acquire
-    data_ready.store(0x00ffffff, std::memory_order_release);
+    data_ready = 1;
 }
 
 
@@ -28,7 +25,7 @@ void consume() {
         std::cout << "consumer running\n";
     }
     
-    while (!data_ready.load(std::memory_order_acquire));
+    while (!data_ready);
     data++;
 }
 

@@ -5,7 +5,7 @@
 #include <mutex>
 
 int data = 0;
-std::atomic<bool> data_ready(false);
+std::atomic<int> data_ready(0x0);
 std::mutex m;
 
 void produce() {
@@ -15,7 +15,7 @@ void produce() {
     }
     
     data = 42;
-    data_ready.store(true);
+    data_ready.store(0x00ffffff);
 }
 
 
